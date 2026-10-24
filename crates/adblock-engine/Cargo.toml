@@ -1,0 +1,14 @@
+[package]
+name = "adblock-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "Network blocking engine based on the adblock crate for the Spotify PoC."
+
+[lints]
+workspace = true
+
+[dependencies]
+adblock.workspace = true
+thiserror.workspace = true

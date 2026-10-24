@@ -1,0 +1,10 @@
+Package: spotify-minimal
+Version: @VERSION@
+Architecture: @ARCH@
+Maintainer: spotify-minimal contributors
+Depends: libwebkit2gtk-4.1-0, libayatana-appindicator3-1
+Section: sound
+Priority: optional
+Description: Minimal ad-free Spotify web player
+ Wraps open.spotify.com in a native window (tao + wry)
+ with Rust-side ad blocking.

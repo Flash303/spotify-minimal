@@ -1,0 +1,11 @@
+/target/
+**/*.rs.bk
+*.pdb
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+.env
+assets/filters/*.txt
+!assets/filters/spotify-ads.txt

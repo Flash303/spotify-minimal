@@ -1,0 +1,30 @@
+[package]
+name = "spotify-shell"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors = ["spotify-minimal contributors"]
+rust-version.workspace = true
+description = "Borderless wry window loading the Spotify web player with ad blocking."
+
+[[bin]]
+name = "spotify-minimal"
+path = "src/main.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+adblock-engine = { path = "../adblock-engine" }
+png = "0.17"
+serde_json.workspace = true
+tao.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+wry.workspace = true
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.62", features = ["Win32_Foundation", "Win32_Media_Audio", "Win32_System_Com", "Win32_System_Diagnostics_ToolHelp", "Win32_System_Threading"] }
+
+[build-dependencies]
+embed-resource = "2"

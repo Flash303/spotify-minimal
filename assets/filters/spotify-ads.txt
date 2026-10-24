@@ -1,0 +1,43 @@
+! Spotify minimal - PoC
+! Single source of truth: read by adblock-engine (Rust) and derived into JS patterns.
+! EasyList / uBlock exports can be appended below this file.
+
+||spclient.wg.spotify.com/ads^
+||spclient.wg.spotify.com/ad-logic^
+||gew-spclient.spotify.com/ads^
+||audio-spotify-ec.spotify.com/ads^
+||google-analytics.com^$third-party
+||googletagmanager.com^$third-party
+||doubleclick.net^$third-party
+||googlesyndication.com^$third-party
+||facebook.net^$third-party
+||hotjar.com^$third-party
+||branch.io^$third-party
+||appsflyer.com^$third-party
+||crashlytics.com^$third-party
+||mixpanel.com^$third-party
+||segment.io^$third-party
+||amazon-adsystem.com^$third-party
+||adsrvr.org^$third-party
+||criteo.com^$third-party
+||criteo.net^$third-party
+||outbrain.com^$third-party
+||taboola.com^$third-party
+||scorecardresearch.com^$third-party
+||quantserve.com^$third-party
+||moatads.com^$third-party
+||moat.com^$third-party
+||iasds01.com^$third-party
+||2mdn.net^$third-party
+||pubmatic.com^$third-party
+||rubiconproject.com^$third-party
+||openx.net^$third-party
+||appnexus.com^$third-party
+||mathtag.com^$third-party
+||demdex.net^$third-party
+||bluekai.com^$third-party
+||crwdcntrl.net^$third-party
+||agkn.com^$third-party
+||eyeota.net^$third-party
+||exelator.com^$third-party
+||rfihub.com^$third-party

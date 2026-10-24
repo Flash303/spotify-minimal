@@ -1,0 +1,100 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - run: cargo fmt --all -- --check
+
+  check:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file \
+            libssl-dev libayatana-appindicator3-dev librsvg2-dev
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - run: cargo test --workspace --locked
+      - run: cargo build --workspace --locked
+
+  package:
+    needs: [check]
+    strategy:
+      matrix:
+        include:
+          - runner: windows-latest
+            kind: nsis
+            artifact: spotify-minimal-windows-x64
+          - runner: ubuntu-latest
+            kind: deb
+            debarch: amd64
+            artifact: spotify-minimal-linux-amd64
+          - runner: ubuntu-24.04-arm
+            kind: deb
+            debarch: arm64
+            artifact: spotify-minimal-linux-arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Linux dependencies
+        if: matrix.kind == 'deb'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file \
+            libssl-dev libayatana-appindicator3-dev librsvg2-dev
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install NSIS
+        if: matrix.kind == 'nsis'
+        run: choco install nsis -y --no-progress
+      - name: Release build
+        run: cargo build --release -p spotify-shell --locked
+      - name: Windows installer
+        if: matrix.kind == 'nsis'
+        shell: powershell
+        run: |
+          $v = (Select-String -Path Cargo.toml -Pattern '^version = "(.*)"').Matches.Groups[1].Value
+          & 'C:\Program Files (x86)\NSIS\makensis.exe' "/DVERSION=$v" packaging\windows\spotify-minimal.nsi
+      - name: Debian package
+        if: matrix.kind == 'deb'
+        run: |
+          v=$(grep -m1 '^version = ' Cargo.toml | cut -d'"' -f2)
+          staging="$(mktemp -d)/pkg"
+          mkdir -p "$staging/DEBIAN" "$staging/usr/bin" \
+            "$staging/usr/share/applications" \
+            "$staging/usr/share/icons/hicolor/256x256/apps"
+          sed -e "s/@VERSION@/$v/" -e "s/@ARCH@/${{ matrix.debarch }}/" \
+            packaging/linux/DEBIAN/control.in > "$staging/DEBIAN/control"
+          cp target/release/spotify-minimal "$staging/usr/bin/"
+          cp packaging/linux/spotify-minimal.desktop "$staging/usr/share/applications/"
+          cp assets/icon.png "$staging/usr/share/icons/hicolor/256x256/apps/spotify-minimal.png"
+          chmod 755 "$staging/usr/bin/spotify-minimal"
+          dpkg-deb --build "$staging" "spotify-minimal_${v}_${{ matrix.debarch }}.deb"
+      - name: Upload Windows installer
+        if: matrix.kind == 'nsis'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: target/spotify-minimal-setup-*.exe
+      - name: Upload Debian package
+        if: matrix.kind == 'deb'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: "*.deb"

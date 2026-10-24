@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=spotify-minimal
+Comment=Minimal ad-free Spotify web player
+Exec=/usr/bin/spotify-minimal
+Icon=spotify-minimal
+Terminal=false
+Categories=AudioVideo;Audio;Player;Music;
+StartupWMClass=spotify-minimal
