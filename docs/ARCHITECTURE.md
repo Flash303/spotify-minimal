@@ -91,6 +91,4 @@ remains). Keep: exe/window icon (`build.rs`, `.rc`, `icon.ico`, `icon.png`,
 ## Documented risk
 
 Native HTTPS interception may be limited by WebKitGTK and Widevine DRM often
-fails outside mainstream browsers. If the DRM test fails, plan B
-(`spotify-minimal --plan-b`, i.e. `cargo run -p spotify-shell -- --plan-b`,
-see `plan_b.rs`) switches to an external `--app` browser with uBlock Origin.
+fails outside mainstream browsers.

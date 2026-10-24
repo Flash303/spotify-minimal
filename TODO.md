@@ -7,7 +7,7 @@
 
 ## Done
 
-- [x] PoC: wry webview + Rust adblock + `--plan-b` fallback.
+- [x] PoC: wry webview + Rust adblock.
 - [x] Basic manual Windows tests (rendering, playback).
 - [x] Filters expanded: ~25 third-party ad-tech domains (TradeDesk, Criteo,
   Outbrain/Taboola, Comscore, Moat, IAS, SSPs/DMPs) as `||domain^$third-party`;

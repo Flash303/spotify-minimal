@@ -18,7 +18,6 @@ cargo clippy --workspace --all-targets --locked -- -D warnings
 cargo test --workspace --locked
 cargo run -p spotify-shell
 RUST_LOG=info cargo run -p spotify-shell
-cargo run -p spotify-shell -- --plan-b
 cargo run -p spotify-shell -- --help
 ```
 
@@ -32,7 +31,7 @@ Windows installer (NSIS, per-user, no UAC):
 Linux installer (.deb, any arch): built by CI from `packaging/linux/`.
 Keep the version in sync between `Cargo.toml`, the `.nsi` and the `.deb`.
 
-Environment variables: `RUST_LOG` (logs), `SPOTIFY_PLAN_B_BIN` (plan B binary).
+Environment variables: `RUST_LOG` (logs).
 
 ## Layout
 
@@ -41,12 +40,11 @@ Cargo.toml                    workspace (resolver 2, shared deps and lints)
 crates/adblock-engine/        lib, zero GUI dependency
   src/lib.rs                  Blocker, BlockError, FILTER_RULES, patterns_from_rules + tests
 crates/spotify-shell/         spotify-minimal binary
-  src/main.rs                 logs, CLI (--help, --plan-b), startup
+  src/main.rs                 logs, CLI (--help), startup
   src/config.rs               constants (URL, title, size)
   src/blocker.rs              Rust navigation + JS hook + tests
   src/webview.rs              tao + wry, cfg linux (build_gtk) / others (build)
   src/mixer.rs                Windows: mixer name/icon via CoreAudio
-  src/plan_b.rs               external browser fallback --app
   build.rs                    Windows: exe resource (icon + VERSIONINFO)
   assets/spotify-minimal.rc   Windows resource manifest
 assets/filters/spotify-ads.txt  single rule source (Rust engine + JS patterns)
@@ -105,10 +103,3 @@ TODO.md                       task list
 - `@@` (exception) rules are ignored for JS patterns: the Rust engine
   remains the reference for navigations.
 - Custom protocols (`with_custom_protocol`) are useless here: they don't capture remote HTTPS.
-
-## Plan B
-
-If DRM fails in the webview, `spotify-minimal --plan-b`
-(`cargo run -p spotify-shell -- --plan-b`) launches Chrome/Chromium/Edge
-as `--app=https://open.spotify.com`. Candidates in `plan_b.rs`, override via
-`SPOTIFY_PLAN_B_BIN`.

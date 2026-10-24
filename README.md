@@ -39,16 +39,14 @@ cargo clippy --workspace --all-targets --locked -- -D warnings
 cargo test --workspace --locked
 cargo run -p spotify-shell
 RUST_LOG=info cargo run -p spotify-shell
-cargo run -p spotify-shell -- --plan-b
 cargo run -p spotify-shell -- --help
 ```
 
-`--plan-b` launches an external browser in `--app` mode (fallback required by
-the brief if DRM fails in the webview). Force the binary via
-`SPOTIFY_PLAN_B_BIN`.
-
 Produced binary: `spotify-minimal`. Identical window title (audio routing
 under PipeWire/PulseAudio, see `docs/DEBIAN_WAYLAND.md`).
+
+> Status: only tested on Windows 11 so far. Linux and macOS builds compile
+> in CI but have never run on a real machine.
 
 ## Installing
 

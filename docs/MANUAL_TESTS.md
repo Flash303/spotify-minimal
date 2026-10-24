@@ -12,8 +12,7 @@ Run with logs: `RUST_LOG=info cargo run -p spotify-shell`.
 
 - Play a protected track: sound comes out, no "web player is not working" banner.
 - On Debian: WebKitGTK + GStreamer + Widevine CDM prerequisites
-  (see `docs/DEBIAN_WAYLAND.md`). A failure here triggers plan B:
-  `cargo run -p spotify-shell -- --plan-b`.
+  (see `docs/DEBIAN_WAYLAND.md`).
 
 ## 3. Adblock
 

@@ -23,9 +23,7 @@ The code uses `build_gtk` (`WebViewBuilderExtUnix`) on `window.gtk_window()`
 - The Widevine CDM does not ship with WebKitGTK. Leads: Chromium package with
   Widevine + libraries expected by the encrypted backend, or comparative
   Firefox/Chrome test to isolate an account or network issue.
-- A DRM failure here does not invalidate the adblock engine: it is exactly the
-  identified spec risk, covered by plan B
-  (`spotify-minimal --plan-b`).
+- A DRM failure here does not invalidate the adblock engine.
 
 ## Audio (PipeWire / WirePlumber)
 
@@ -37,5 +35,4 @@ WirePlumber rules if needed.
 
 ```sh
 RUST_LOG=info ./target/debug/spotify-minimal
-SPOTIFY_PLAN_B_BIN=/usr/bin/chromium ./target/debug/spotify-minimal --plan-b
 ```

@@ -2,7 +2,6 @@ mod blocker;
 mod config;
 #[cfg(target_os = "windows")]
 mod mixer;
-mod plan_b;
 mod webview;
 
 fn main() {
@@ -17,14 +16,7 @@ fn main() {
             "{}: minimal Spotify player (wry + adblock)",
             config::APP_TITLE
         );
-        println!("usage: spotify-minimal [--plan-b]");
-        return;
-    }
-    if std::env::args().any(|arg| arg == "--plan-b") {
-        if let Err(error) = plan_b::launch() {
-            eprintln!("plan B failed: {error}");
-            std::process::exit(1);
-        }
+        println!("usage: spotify-minimal");
         return;
     }
     #[cfg(target_os = "windows")]
