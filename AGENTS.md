@@ -27,7 +27,8 @@ Produced binary: `spotify-minimal`. Window title: `spotify-minimal`
 Windows installer (NSIS, per-user, no UAC):
 `packaging/windows/spotify-minimal.nsi`. Rebuild:
 `cargo build --release -p spotify-shell` then `makensis` on the `.nsi`
-(`makensis /DVERSION=x.y.z` overrides the version).
+(`makensis /DVERSION=x.y.z` overrides the version). Always pass the `.nsi`
+by absolute path: makensis mangles `__FILEDIR__` with relative paths.
 Linux installer (.deb, any arch): built by CI from `packaging/linux/`.
 Keep the version in sync between `Cargo.toml`, the `.nsi` and the `.deb`.
 

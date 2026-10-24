@@ -54,7 +54,8 @@ under PipeWire/PulseAudio, see `docs/DEBIAN_WAYLAND.md`).
   built from `packaging/windows/spotify-minimal.nsi`). Installs to
   `%LOCALAPPDATA%\Programs\spotify-minimal` with Start Menu + Desktop
   shortcuts and an uninstaller entry. Rebuild: `cargo build --release
-  -p spotify-shell` then `makensis packaging/windows/spotify-minimal.nsi`.
+  -p spotify-shell` then `makensis` with the `.nsi` absolute path
+  (`makensis /DVERSION=x.y.z "$PWD\packaging\windows\spotify-minimal.nsi"`).
 - Linux: install the `.deb` from CI (`packaging/linux/`) with `apt install
   ./spotify-minimal_<version>_<arch>.deb`. Installs to `/usr/bin` with a
   desktop entry and icon.

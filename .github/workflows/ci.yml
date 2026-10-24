@@ -70,7 +70,8 @@ jobs:
         shell: powershell
         run: |
           $v = (Select-String -Path Cargo.toml -Pattern '^version = "(.*)"').Matches.Groups[1].Value
-          & 'C:\Program Files (x86)\NSIS\makensis.exe' "/DVERSION=$v" packaging\windows\spotify-minimal.nsi
+          $nsi = Join-Path (Get-Location) 'packaging\windows\spotify-minimal.nsi'
+          & 'C:\Program Files (x86)\NSIS\makensis.exe' "/DVERSION=$v" $nsi
       - name: Debian package
         if: matrix.kind == 'deb'
         run: |
